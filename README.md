@@ -112,4 +112,42 @@ languages.contains(where: input.contains)
 2. The ```contains()``` method of String accepts a string as its parameter and returns true or false.
 3. Swift massively blurs the lines between functions, methods, closures, and more.
 
+## Formatting strings with NSAttributedString
+
+* Attributed strings are made up of two parts:
+a plain Swift string, plus a dictionary containing a series of attributes that describe how various segments of the string are formatted.
+In its most basic form you might want to create one set of attributes that affect the whole string, like this:
+```
+let string = "This is a test string"
+let attributes: [NSAttributedString.Key: Any] = [
+    .foregroundColor: UIColor.white,
+    .backgroundColor: UIColor.red,
+    .font: UIFont.boldSystemFont(ofSize: 36)
+]
+
+let attributedString = NSAttributedString(string: string, attributes: attributes)
+```
+
+* It’s common to use an explicit type annotation when making attributed strings, because inside the dictionary we can just write things like ```.foregroundColor``` for the key rather than ```NSAttributedString.Key.foregroundColor```
+
+* The values of the attributes dictionary are of type Any, because ```NSAttributedString``` attributes can be all sorts of things: numbers, colors, fonts, paragraph styles, and more.
+
+* use ```NSMutableAttributedString```, which is an attributed string that you can modify:
+```
+let attributedString = NSMutableAttributedString(string: string)
+attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 8), range: NSRange(location: 0, length: 4))
+attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 16), range: NSRange(location: 5, length: 2))
+attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 24), range: NSRange(location: 8, length: 1))
+attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 32), range: NSRange(location: 10, length: 4))
+attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 40), range: NSRange(location: 15, length: 6))
+```
+When preview that you’ll see the font size get larger with each word.
+
+* There are lots of formatting options for attributed strings, including:
+1. Set ```.underlineStyle``` to a value from ```NSUnderlineStyle``` to strike out characters.
+2. Set ```.strikethroughStyle``` to a value from ```NSUnderlineStyle``` (no, that’s not a typo) to strike out characters.
+3. Set ```.paragraphStyle``` to an instance of ```NSMutableParagraphStyle``` to control text alignment and spacing.
+4. Set ```.link ``` to be a URL to make clickable links in your strings.
+
+
 
